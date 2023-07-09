@@ -4,24 +4,28 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class q5 {
-    public static node findSameRoot(node root,node subRoot){
-        if(root ==null ||subRoot==null){
-            return null;
+    public static boolean isIdentical(node root,node subRoot) {
+        if (root == null && subRoot == null) {
+            return true;
+        } else if (root == null || subRoot == null || root.data != subRoot.data) {
+            return false;
         }
-        if (root.data == subRoot.data){
-            return root;
+        if (!isIdentical(root.left, subRoot.left)) {
+            return false;
         }
-        node leftNode = findSameRoot(root.left,subRoot);
-        node rightNode = findSameRoot(root.right,subRoot);
-        if(leftNode == null){
-            return leftNode;
+        if (!isIdentical(root.right, subRoot.right)) {
+            return false;
         }
-        return rightNode;
+        return true;
     }
-    public static node
-    public static boolean isPresent(node root,node subRoot){
-        node ptr = findSameRoot(root,subRoot);
-
+    public static boolean isSubtree(node root,node subRoot) {
+        if(root == null) return false;
+        if(root.data == subRoot.data){
+            if(isIdentical(root, subRoot)){
+                return true;
+            }
+        }
+        return isSubtree(root.left,subRoot) || isSubtree(root.right,subRoot);
     }
     public static void main(String[] args) {
         node head = null;
@@ -38,6 +42,6 @@ public class q5 {
 //        test = BT2.InsertAtRight(test, 3);
         test = BT2.InsertAtRight(test, 4);
 
-        System.out.println(isSubtreePresent(head,test));
+        System.out.println(isSubtree(head,test));
     }
 }
